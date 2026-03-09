@@ -2003,7 +2003,10 @@ class Workflow(WorkflowExecutorInterface):
                 check_may_use_software_deployment("envmodules")
                 from snakemake.deployment.env_modules import EnvModules
 
-                rule.env_modules = EnvModules(*ruleinfo.env_modules)
+                precommand = None
+                if self.deployment_settings is not None:
+                    precommand = self.deployment_settings.envmodules_precommand
+                rule.env_modules = EnvModules(ruleinfo.env_modules, precommand)
 
             if ruleinfo.conda_env:
                 check_may_use_software_deployment("conda")

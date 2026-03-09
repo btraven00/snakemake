@@ -323,6 +323,7 @@ class SpawnedJobArgsFactory:
             ),
             w2a("deployment_settings.apptainer_prefix"),
             w2a("deployment_settings.apptainer_args", base64_encode=True),
+            w2a("deployment_settings.envmodules_precommand"),
             w2a("resource_settings.max_threads"),
             self.get_shared_fs_usage_arg(executor_common_settings),
             w2a(

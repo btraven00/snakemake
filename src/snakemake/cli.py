@@ -1747,6 +1747,13 @@ def get_argument_parser(profiles=None):
         "fallback for rules which don't define environment modules.",
     )
 
+    group_env_modules.add_argument(
+        "--envmodules-precommand",
+        help="Code to be executed before loading env-modules. Such code "
+        "may be required with some remote executors such as 'slurm', e.g.: "
+        ". /etc/profile.d/modules.sh && export MODULEPATH=/path/to/your/modules"
+    )
+
     def help_internal(text):
         return f"Internal use only: {text}"
 
@@ -2080,6 +2087,7 @@ def args_to_api(args, parser):
                         conda_not_block_search_path_envvars=args.conda_not_block_search_path_envvars,
                         apptainer_args=args.apptainer_args,
                         apptainer_prefix=args.apptainer_prefix,
+                        envmodules_precommand=args.envmodules_precommand,
                     ),
                     snakefile=args.snakefile,
                     workdir=args.directory,

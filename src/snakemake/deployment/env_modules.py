@@ -8,14 +8,17 @@ import hashlib
 
 
 class EnvModules:
-    def __init__(self, *module_names):
-        self.names = module_names
+    def __init__(self, module_names=None, precommand=None):
+        self.names = module_names if module_names is not None else []
+        self.precommand = precommand
 
     def shellcmd(self, cmd):
         """Return shell command with given modules loaded."""
-        return "module purge && MODULES_VERBOSITY=concise module load {to_load}; {cmd}".format(
-            to_load=" ".join(self.names), cmd=cmd
-        )
+        precommand_str = ''
+        if self.precommand is not None:
+            precommand_str = f"{self.precommand} && "
+        to_load = " ".join(self.names)
+        return f"{precommand_str}module purge && module load {to_load}; {cmd}"
 
     def __str__(self):
         return ", ".join(self.names)
